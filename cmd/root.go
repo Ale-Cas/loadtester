@@ -17,6 +17,7 @@ func executeRequest(url string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	defer resp.Body.Close()
 	fmt.Println("Response status code:", resp.Status)
