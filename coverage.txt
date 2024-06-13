@@ -1,0 +1,10 @@
+mode: atomic
+github.com/Ale-Cas/loadtester/main.go:10.13,12.2 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:16.33,18.16 2 1
+github.com/Ale-Cas/loadtester/cmd/root.go:18.16,20.3 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:21.2,22.51 2 1
+github.com/Ale-Cas/loadtester/cmd/root.go:25.45,26.35 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:26.35,28.3 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:41.16,42.42 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:42.42,44.3 1 0
+github.com/Ale-Cas/loadtester/cmd/root.go:48.13,52.2 3 1

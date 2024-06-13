@@ -1,4 +1,4 @@
-package tests
+package cmd
 
 import (
 	"bytes"
@@ -7,8 +7,6 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
-
-	"github.com/Ale-Cas/loadtester/cmd"
 )
 
 func TestCLIApplication(t *testing.T) {
@@ -26,10 +24,10 @@ func TestCLIApplication(t *testing.T) {
 
 	// Set the arguments
 	nReq := 2
-	cmd.RootCmd.SetArgs([]string{"-u", server.URL, "-n", fmt.Sprint(nReq)})
+	RootCmd.SetArgs([]string{"-u", server.URL, "-n", fmt.Sprint(nReq)})
 
 	// Run the CLI
-	cmd.Execute()
+	Execute()
 
 	// Stop capturing stdout
 	w.Close()
