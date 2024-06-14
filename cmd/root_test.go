@@ -28,9 +28,10 @@ func captureStdout(f func()) string {
 	return buf.String()
 }
 
-func TestExecuteRequest(t *testing.T) {
+func testExecuteRequest(t *testing.T, status int, expectedOutput string) {
+	debug = true // enable debug mode to print the response
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		rw.WriteHeader(http.StatusOK)
+		rw.WriteHeader(status)
 	}))
 
 	defer server.Close()
@@ -40,14 +41,22 @@ func TestExecuteRequest(t *testing.T) {
 	})
 
 	// Check the output
-	if !strings.Contains(output, "200 OK") {
-		t.Errorf("Expected '200 OK' in output, got %s", output)
+	if !strings.Contains(output, expectedOutput) {
+		t.Errorf("Expected '%s' in output, got %s", expectedOutput, output)
 	}
+}
 
+func TestExecuteRequest_OK(t *testing.T) {
+	testExecuteRequest(t, http.StatusOK, "200 OK")
+}
+
+func TestExecuteRequest_NotFound(t *testing.T) {
+	testExecuteRequest(t, http.StatusNotFound, "404 Not Found")
 }
 
 // TestExecuteRequestError tests the executeRequest function with an invalid URL
 func TestExecuteRequestError(t *testing.T) {
+	debug = true
 	output := captureStdout(func() {
 		executeRequest("invalid")
 	})
@@ -56,7 +65,7 @@ func TestExecuteRequestError(t *testing.T) {
 	if !strings.Contains(output, "unsupported protocol scheme") {
 		t.Errorf("Expected 'unsupported protocol scheme' in output, got %s", output)
 	}
-	
+
 	output = captureStdout(func() {
 		executeRequest("http://urldoesntexist/")
 	})
