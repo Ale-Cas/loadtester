@@ -1,3 +1,8 @@
+install: 
+	go install
+	export GOROOT=$HOME/go
+	export PATH=$PATH:$GOROOT/bin
+
 test:
 	go test -v ./...
 
@@ -7,4 +12,3 @@ coverage:
 
 fmt:
 	gofmt -w .
-
