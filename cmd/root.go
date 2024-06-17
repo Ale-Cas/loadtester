@@ -16,7 +16,6 @@ var (
 	debug         bool // debug mode, if true print all the responses
 )
 
-
 // executeRequest makes a GET request to the given URL
 // and returns the response status code or an error
 func executeRequest(url string) (int, error) {
@@ -34,6 +33,7 @@ func executeRequest(url string) (int, error) {
 	return resp.StatusCode, nil
 }
 
+// run is the main function that is called when the CLI is executed
 func run(cmd *cobra.Command, args []string) {
 	// counters for the responses
 	var successes, failures, errorCount int
@@ -41,14 +41,14 @@ func run(cmd *cobra.Command, args []string) {
 	// semaphore to limit concurrent goroutines
 	semaphore := make(chan bool, numConcurrent)
 	for i := 0; i < numRequests; i++ {
-		wg.Add(1)
 		go func() {
+			wg.Add(1)
 			semaphore <- true
 			status, err := executeRequest(url)
-			// >= 200 and < 300 is considered a success
 			if err != nil {
 				errorCount++
 			} else if status >= http.StatusOK && status < http.StatusMultipleChoices {
+				// >= 200 and < 300 is considered a success
 				successes++
 			} else {
 				failures++
@@ -58,7 +58,7 @@ func run(cmd *cobra.Command, args []string) {
 		}()
 	}
 	wg.Wait() // wait for all goroutines to finish
-	
+
 	// print the results
 	fmt.Println("Successes:", successes)
 	fmt.Println("Failures:", failures)
